@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'date'
 require_relative 'prices'
 
+# Module that handles calculation and tracking of shipment discounts
+# based on size, carrier, and monthly discount limits.
 module DiscountRules
   @monthly_discounts = Hash.new(0.0)
   @lp_large_count = Hash.new(0)
@@ -31,8 +35,7 @@ module DiscountRules
 
     total_discount_so_far = @monthly_discounts[ym]
     if total_discount_so_far + discount > 10.0
-      puts total_discount_so_far + discount
-      discount = [0.0 , 10.0 - total_discount_so_far].max
+      discount = [0.0, 10.0 - total_discount_so_far].max
       reduced_price = base_price - discount
     end
 
@@ -40,6 +43,3 @@ module DiscountRules
     [reduced_price.round(2), discount.round(2)]
   end
 end
-
-
-
